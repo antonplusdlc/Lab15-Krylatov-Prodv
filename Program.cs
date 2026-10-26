@@ -69,8 +69,45 @@ Console.WriteLine(plrsN[1].Level);
 
 // JsonException. если структура повреждена.
 
+// ## Итоговая задача. Сохранение настроек игры
+
+GameSettings settings = new()
+{
+    PlayerName = "da",
+    Volume = 30,
+    FullScreen = true,
+    Difficulty = Difficulty.Hard // потому что индексы.
+};
+
+string settingsJson = JsonSerializer.Serialize<GameSettings>(settings, options);
+File.WriteAllText("settings.json", settingsJson);
+
+if (File.Exists("settings.json"))
+{
+    string readSettings = File.ReadAllText("settings.json");
+    GameSettings? desSettings = JsonSerializer.Deserialize<GameSettings>(readSettings);
+
+    Console.WriteLine($"Name: {desSettings.PlayerName}\nVolume: {desSettings.Volume}\nFullscreen: {(desSettings.FullScreen ? "yes" : "no")}\nDiff: {desSettings.Difficulty}");
+}
+else Console.WriteLine("settings.json is not exists!");
+
 class Player
 {
     public string Name { get; set; } = "";
     public int Level { get; set; }
+}
+
+class GameSettings
+{
+    public string PlayerName { get; set; } = "";
+    public int Volume { get; set; }
+    public bool FullScreen { get; set; }
+    public Difficulty Difficulty { get; set; }
+}
+
+enum Difficulty
+{
+    Easy,
+    Normal,
+    Hard
 }
