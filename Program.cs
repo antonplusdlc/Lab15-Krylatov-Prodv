@@ -91,10 +91,48 @@ if (File.Exists("settings.json"))
 }
 else Console.WriteLine("settings.json is not exists!");
 
+// ## Самостоятельные задания
+
+// ### ★ JSON объекта
+
+Game game = new()
+{
+    Name = "game",
+    Price = 999,
+    Desc = " dsfssdfsdf  fsdsd"
+};
+
+string gameSer = JsonSerializer.Serialize<Game>(game, options);
+Console.WriteLine(gameSer);
+Game? resGame = JsonSerializer.Deserialize<Game>(gameSer);
+Console.WriteLine(resGame.Desc);
+
+// ### ★★ JSON коллекции
+
+List<Game> games = new List<Game>
+{
+    new Game {Name = "sda", Price = 0, Desc = "sdasf"},
+    new Game {Name = "dfs", Price = 8, Desc = "sfafsdasdf"},
+    new Game {Name = "sdafka", Price = 67, Desc = "das"}
+};
+
+File.WriteAllText("da.json", JsonSerializer.Serialize<List<Game>>(games, options));
+string daa = File.ReadAllText("da.json");
+List<Game>? resGamee = JsonSerializer.Deserialize<List<Game>>(daa);
+
+Console.WriteLine($"{resGamee.Count}\n{resGamee[0].Name}\n{resGamee[1].Desc}");
+
 class Player
 {
     public string Name { get; set; } = "";
     public int Level { get; set; }
+}
+
+class Game
+{
+    public string Name {get; set;}
+    public int Price {get; set;}
+    public string Desc {get; set;}
 }
 
 class GameSettings
